@@ -1,0 +1,22 @@
+{
+	"name": "w7d2",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon app.js",
+		"start": "node app.js",
+		"seed": "node ./bin/student.seed.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"mongoose": "^7.2.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.22"
+	}
+}
