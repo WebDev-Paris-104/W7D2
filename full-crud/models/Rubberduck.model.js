@@ -1,4 +1,4 @@
-const { model, Schema } = require("mongoose");
+const { model, Schema } = require("mongoose")
 
 const rubberDuckSchema = new Schema(
 	{
@@ -9,9 +9,9 @@ const rubberDuckSchema = new Schema(
 			maxLength: 50,
 			type: String,
 
-			set: (value) => {
-				return value[0].toUpperCase() + value.slice(1);
-			},
+			// set: (value) => {
+			// 	return value[0].toUpperCase() + value.slice(1)
+			// },
 		},
 		picture: {
 			type: String,
@@ -21,6 +21,7 @@ const rubberDuckSchema = new Schema(
 		creator: {
 			type: Schema.Types.ObjectId,
 			ref: "Student",
+			required: true,
 		},
 		usedBy: [
 			{
@@ -30,8 +31,8 @@ const rubberDuckSchema = new Schema(
 		],
 	},
 	{ timestamps: true }
-);
+)
 
-const RubberDuck = model("Rubberduck", rubberDuckSchema);
+const RubberDuck = model("Rubberduck", rubberDuckSchema)
 
-module.exports = RubberDuck;
+module.exports = RubberDuck
