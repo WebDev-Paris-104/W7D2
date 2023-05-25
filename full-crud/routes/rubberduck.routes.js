@@ -2,6 +2,7 @@ const router = require("express").Router()
 const RubberDuck = require("./../models/Rubberduck.model")
 const Student = require("./../models/Student.model")
 const uploader = require("./../config/cloudinary")
+const isAuthenticated = require("./../middlewares/isAuthenticated")
 
 router.get("/", async (req, res, next) => {
 	try {
@@ -36,37 +37,34 @@ router.get("/", async (req, res, next) => {
 
 // We receive the infos of the duck in the req.body, and the id in the params.
 
-router.post(
-	"/:creatorId",
-	uploader.single("picture"),
-	async (req, res, next) => {
-		try {
-			console.log(req.body)
-			console.log(req.file)
-			const foundUser = await Student.findById(req.params.creatorId)
-			if (!foundUser) {
-				return res.status(400).json({
-					message: `Could not find any user with the id: ${req.params.creatorId}`,
-				})
-			}
+router.post("/", uploader.single("picture"), async (req, res, next) => {
+	try {
+		console.log(req.body)
+		console.log(req.file)
+		console.log(req.user)
+		// const foundUser = await Student.findById(req.params.creatorId)
+		// if (!foundUser) {
+		// 	return res.status(400).json({
+		// 		message: `Could not find any user with the id: ${req.params.creatorId}`,
+		// 	})
+		// }
 
-			let pictureUrl
-			if (req.file) {
-				pictureUrl = req.file.path
-			}
-
-			const createdDuck = await RubberDuck.create({
-				name: req.body.name,
-				picture: pictureUrl,
-				creator: req.params.creatorId,
-			})
-
-			res.status(201).json(createdDuck)
-		} catch (error) {
-			next(error)
+		let pictureUrl
+		if (req.file) {
+			pictureUrl = req.file.path
 		}
+
+		const createdDuck = await RubberDuck.create({
+			name: req.body.name,
+			picture: pictureUrl,
+			creator: req.user._id,
+		})
+
+		res.status(201).json(createdDuck)
+	} catch (error) {
+		next(error)
 	}
-)
+})
 
 // Get one
 

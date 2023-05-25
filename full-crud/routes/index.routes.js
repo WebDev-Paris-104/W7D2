@@ -1,3 +1,4 @@
+const isAuthenticated = require("../middlewares/isAuthenticated.js")
 const router = require("express").Router()
 // const express = require('express')
 // const router = express.Router()
@@ -16,6 +17,10 @@ router.get("/", (req, res) => {
 // Prefixing routes
 const studentRoutes = require("./student.routes.js")
 router.use("/student", studentRoutes)
+router.use("/auth", require("./auth.routes.js"))
+
+router.use(isAuthenticated)
+//! We need to be logged in to access this part of the website
 router.use("/rubberduck", require("./rubberduck.routes.js"))
 
 // We always need to export the router
