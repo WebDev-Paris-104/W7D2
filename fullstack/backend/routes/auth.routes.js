@@ -3,6 +3,7 @@ const User = require("./../models/Student.model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const salt = 10
+const isAuthenticated = require("./../middlewares/isAuthenticated")
 
 router.post("/signup", async (req, res, next) => {
 	try {
@@ -63,6 +64,10 @@ router.post("/login", async (req, res, next) => {
 	} catch (error) {
 		next(error)
 	}
+})
+
+router.get("/me", isAuthenticated, async (req, res, next) => {
+	res.json(req.user)
 })
 
 module.exports = router

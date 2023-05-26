@@ -4,11 +4,20 @@ require("dotenv").config()
 require("./config/dbConfig")
 // We need express
 const express = require("express")
+const cors = require("cors")
 // Need the app
 const app = express()
 // Configuration of the app
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+// Authorize everyone
+// app.use(cors())
+// Authorize just our frontend
+app.use(
+	cors({
+		origin: process.env.FRONTEND_URL,
+	})
+)
 
 /**
  * Quick example of middlewares
@@ -65,7 +74,11 @@ app.use((err, req, res, next) => {
 			details: "Make sure you are sending correct informations",
 		})
 	}
-	res.json({ error: err, message: err.message })
+
+	if (err.name === "TokenExpiredError") {
+		return res.status(401).json({ message: "Token expired" })
+	}
+	res.status(500).json({ error: err, message: err.message })
 })
 
 // function modifytheRequest(req, res, next) {

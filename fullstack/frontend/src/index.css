@@ -1,0 +1,23 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+main {
+	min-height: calc(100vh - 7.5rem);
+	display: flex;
+	flex-direction: column;
+	max-width: 900px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+footer {
+	background-color: black;
+	height: 3rem;
+	margin-top: auto;
+	color: white;
+	display: grid;
+	place-items: center;
+}
